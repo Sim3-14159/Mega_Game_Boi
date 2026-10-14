@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" role="img" aria-labelledby="title desc">
+  <title id="title">Snake game wiring guide for Arduino Mega 2560</title>
+  <desc id="desc">Shows the OLED wired to SDA pin 20 and SCL pin 21, and the game's buttons, LEDs, and buzzer connected to their configured Mega pins.</desc>
+  <rect width="1000" height="620" rx="18" fill="#f5f8f6"/>
+  <text x="42" y="54" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#18392c">Snake Game · Arduino Mega 2560</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="15" fill="#52645a">Use the Mega pin numbers below; the game sketch uses the existing D2–D7 and A1/A3 assignments.</text>
+
+  <rect x="354" y="126" width="292" height="370" rx="22" fill="#16734d" stroke="#0b4d34" stroke-width="4"/>
+  <rect x="374" y="146" width="252" height="48" rx="8" fill="#0b4d34"/>
+  <text x="500" y="177" text-anchor="middle" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#fff">ARDUINO MEGA 2560</text>
+  <rect x="437" y="221" width="126" height="100" rx="10" fill="#133c2d" stroke="#94c4a9" stroke-width="2"/>
+  <text x="500" y="266" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#e4f1e9">ATmega</text>
+  <text x="500" y="289" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#e4f1e9">2560</text>
+  <text x="500" y="358" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#e4f1e9">USB / power</text>
+  <rect x="446" y="371" width="108" height="32" rx="5" fill="#dce9df"/>
+  <rect x="474" y="407" width="52" height="13" rx="4" fill="#9db2a4"/>
+  <text x="500" y="463" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#e4f1e9">I²C pins: D20 / D21</text>
+
+  <rect x="42" y="144" width="256" height="156" rx="12" fill="#fff" stroke="#9cb5a4" stroke-width="2"/>
+  <text x="64" y="177" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#18392c">128×64 I²C OLED</text>
+  <text x="64" y="209" font-family="Arial, sans-serif" font-size="15" fill="#33473a">VCC → rated supply</text>
+  <text x="64" y="235" font-family="Arial, sans-serif" font-size="15" fill="#33473a">GND → GND</text>
+  <text x="64" y="261" font-family="Arial, sans-serif" font-size="15" fill="#33473a">SDA → SDA / D20</text>
+  <text x="64" y="285" font-family="Arial, sans-serif" font-size="15" fill="#33473a">SCL → SCL / D21</text>
+  <path d="M298 220 H324 V233 H354" fill="none" stroke="#3478bd" stroke-width="3"/>
+  <path d="M298 246 H333 V258 H354" fill="none" stroke="#303b36" stroke-width="3"/>
+  <path d="M298 272 H342 V283 H354" fill="none" stroke="#c38b24" stroke-width="3"/>
+  <path d="M298 290 H350 V300 H354" fill="none" stroke="#b64e4e" stroke-width="3"/>
+
+  <rect x="704" y="128" width="254" height="352" rx="12" fill="#fff" stroke="#9cb5a4" stroke-width="2"/>
+  <text x="728" y="162" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#18392c">Game controls &amp; outputs</text>
+  <text x="728" y="201" font-family="Arial, sans-serif" font-size="15" fill="#33473a">Up button</text><text x="930" y="201" text-anchor="end" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#16734d">D2</text>
+  <text x="728" y="233" font-family="Arial, sans-serif" font-size="15" fill="#33473a">Down button</text><text x="930" y="233" text-anchor="end" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#16734d">D3</text>
+  <text x="728" y="265" font-family="Arial, sans-serif" font-size="15" fill="#33473a">Left button</text><text x="930" y="265" text-anchor="end" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#16734d">D4</text>
+  <text x="728" y="297" font-family="Arial, sans-serif" font-size="15" fill="#33473a">Right button</text><text x="930" y="297" text-anchor="end" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#16734d">D5</text>
+  <text x="728" y="329" font-family="Arial, sans-serif" font-size="15" fill="#33473a">Green LED</text><text x="930" y="329" text-anchor="end" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#16734d">D6</text>
+  <text x="728" y="361" font-family="Arial, sans-serif" font-size="15" fill="#33473a">Red LED</text><text x="930" y="361" text-anchor="end" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#16734d">D7</text>
+  <text x="728" y="393" font-family="Arial, sans-serif" font-size="15" fill="#33473a">Start/restart button</text><text x="930" y="393" text-anchor="end" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#16734d">A1</text>
+  <text x="728" y="425" font-family="Arial, sans-serif" font-size="15" fill="#33473a">Passive buzzer</text><text x="930" y="425" text-anchor="end" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#16734d">A3</text>
+  <path d="M646 222 H674 V201 H704 M646 254 H680 V233 H704 M646 286 H686 V265 H704 M646 318 H692 V297 H704 M646 350 H698 V329 H704 M646 382 H698 V361 H704 M646 414 H692 V393 H704 M646 446 H686 V425 H704" fill="none" stroke="#16734d" stroke-width="2"/>
+
+  <rect x="42" y="334" width="604" height="146" rx="12" fill="#e8f0ea" stroke="#b4c6b9" stroke-width="2"/>
+  <text x="66" y="370" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#18392c">Button wiring</text>
+  <text x="66" y="399" font-family="Arial, sans-serif" font-size="15" fill="#33473a">Connect each button between its signal pin and GND. The sketch uses INPUT_PULLUP,</text>
+  <text x="66" y="423" font-family="Arial, sans-serif" font-size="15" fill="#33473a">so no external pull-up resistor is needed. A0 is left unconnected for random seeding.</text>
+  <text x="66" y="453" font-family="Arial, sans-serif" font-size="14" fill="#52645a">Keep series resistors on both LEDs; check the OLED module's allowed supply voltage.</text>
+
+  <text x="42" y="557" font-family="Arial, sans-serif" font-size="14" fill="#52645a">Hardware I²C follows the Mega board's Wire mapping: SDA = D20, SCL = D21.</text>
+  <text x="42" y="581" font-family="Arial, sans-serif" font-size="14" fill="#52645a">The legacy schematic.svg shows an Uno; use this guide for Mega 2560 wiring.</text>
+</svg>
