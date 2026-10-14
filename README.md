@@ -1,5 +1,9 @@
 # Mega_Game_Boi
 
+
+> [!NOTE]
+> This project is almost entirely vibe coded. It's built off of my [Snake_Game](https://github.com/Sim3-14159/Snake_Game) repo.
+
 Arduino Mega 2560 Snake with a two-axis joystick, tactile buttons, OLED, score display, LED bar, and passive buzzer.
 
 Main sketch: [`Mega_Game_Boi.ino`](Mega_Game_Boi.ino)
