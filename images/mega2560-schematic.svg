@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 1180" role="img" aria-labelledby="title desc">
+  <title id="title">Mega_Game_Boi circuit schematic for Arduino Mega 2560</title>
+  <desc id="desc">Pin-level schematic for a Mega 2560, I2C OLED, analog joystick, six push buttons, a TM1637 four-digit display, ten separately-resisted LEDs, status LEDs, and a passive buzzer.</desc>
+  <defs>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #182522; }
+      .title { font-size: 30px; font-weight: 700; }
+      .subtitle { font-size: 16px; fill: #52635e; }
+      .label { font-size: 15px; font-weight: 600; }
+      .small { font-size: 13px; }
+      .pin { font-size: 13px; fill: #f6fbf8; }
+      .wire { fill: none; stroke: #263b36; stroke-width: 2.4; stroke-linecap: square; stroke-linejoin: round; }
+      .module { fill: #fff; stroke: #52635e; stroke-width: 2; }
+      .board { fill: #13734c; stroke: #0b4c32; stroke-width: 4; }
+      .chip { fill: #133d2d; stroke: #92baa4; stroke-width: 2; }
+      .power { fill: #b21f35; font-weight: 700; font-size: 13px; }
+      .ground { fill: #24342f; font-size: 12px; font-weight: 700; }
+      .resistor { fill: #fff6d8; stroke: #263b36; stroke-width: 2; }
+      .junction { fill: #263b36; }
+      .light { fill: #f6fbf8; }
+      .digits { fill: #ef343c; font-family: monospace; }
+    </style>
+    <g id="gnd">
+      <path d="M0 0 V10 M-12 10 H12 M-8 15 H8 M-4 20 H4" class="wire"/>
+    </g>
+    <g id="led">
+      <path d="M0 0 H12 M12 -10 L28 0 L12 10 Z M30 -11 V11 M30 0 H43" class="wire"/>
+      <path d="M12 -10 L28 0 L12 10 Z" fill="#fff" stroke="#263b36" stroke-width="2"/>
+      <path d="M16 -17 L22 -23 M22 -14 L28 -20" class="wire"/>
+      <path d="M20 -23 L22 -23 L22 -21 M26 -20 L28 -20 L28 -18" class="wire"/>
+    </g>
+    <g id="led-rev">
+      <path d="M0 0 H12 M12 -11 V11 M12 0 L28 -10 V10 Z M28 0 H43" class="wire"/>
+      <path d="M28 -10 L12 0 L28 10 Z" fill="#fff" stroke="#263b36" stroke-width="2"/>
+      <path d="M16 -17 L22 -23 M22 -14 L28 -20" class="wire"/>
+      <path d="M20 -23 L22 -23 L22 -21 M26 -20 L28 -20 L28 -18" class="wire"/>
+    </g>
+    <g id="switch">
+      <path d="M0 0 H12 M48 0 H60 M13 0 A2 2 0 1 0 17 0 A2 2 0 1 0 13 0 M43 0 A2 2 0 1 0 47 0 A2 2 0 1 0 43 0 M17 -1 L40 -13" class="wire"/>
+    </g>
+  </defs>
+
+  <rect width="1680" height="1180" fill="#f7f9f7"/>
+  <text x="42" y="52" class="title">Mega_Game_Boi · Arduino Mega 2560 schematic</text>
+  <text x="42" y="82" class="subtitle">Pin-level circuit diagram · all grounds are common · button contacts are normally open and use INPUT_PULLUP</text>
+
+  <!-- OLED module and its four connections -->
+  <rect x="48" y="135" width="435" height="175" rx="10" class="module"/>
+  <text x="72" y="166" class="label">128×64 I²C OLED</text>
+  <text x="72" y="191" class="small">SH1106 / SSD1306 module</text>
+  <rect x="72" y="210" width="174" height="75" rx="5" fill="#25312f"/>
+  <rect x="84" y="220" width="150" height="54" rx="3" fill="#111918"/>
+  <text x="159" y="251" text-anchor="middle" font-size="14" class="light">128 × 64</text>
+  <text x="274" y="218" class="small">VCC → rated supply</text>
+  <text x="274" y="241" class="small">GND → common GND</text>
+  <text x="274" y="264" class="small">SDA → Mega D20 / SDA</text>
+  <text x="274" y="287" class="small">SCL → Mega D21 / SCL</text>
+  <path d="M483 264 H542 V230 H610" class="wire"/>
+  <path d="M483 287 H556 V270 H610" class="wire"/>
+  <text x="493" y="256" class="small">SDA</text>
+  <text x="493" y="303" class="small">SCL</text>
+
+  <!-- Analog joystick module -->
+  <rect x="48" y="320" width="435" height="115" rx="10" class="module"/>
+  <text x="72" y="350" class="label">2-axis joystick module</text>
+  <circle cx="149" cy="390" r="31" fill="#e7ece9" stroke="#52635e" stroke-width="2"/>
+  <circle cx="149" cy="390" r="15" fill="#52635e"/>
+  <path d="M149 372 V356 M149 408 V424 M131 390 H115 M167 390 H183" class="wire"/>
+  <text x="204" y="371" class="small">VRx → A8</text>
+  <text x="204" y="394" class="small">VRy → A9</text>
+  <text x="204" y="417" class="small">SW → D22 (start)</text>
+  <text x="350" y="371" class="power">VCC → +5V</text>
+  <text x="350" y="394" class="ground">GND → common GND</text>
+  <path d="M483 371 H540 V340 H610" class="wire"/>
+  <path d="M483 394 H555 V380 H610" class="wire"/>
+  <path d="M483 417 H570 V420 H610" class="wire"/>
+
+  <!-- Tactile buttons: each switch pulls its digital input low -->
+  <text x="48" y="455" class="label">Tactile buttons (signal pin to GND when pressed)</text>
+  <text x="54" y="485" class="small">UP · D2</text>
+  <text x="54" y="525" class="small">DOWN · D3</text>
+  <text x="54" y="565" class="small">LEFT · D4</text>
+  <text x="54" y="605" class="small">RIGHT · D5</text>
+  <text x="54" y="645" class="small">A · START/RESTART · A1</text>
+  <text x="54" y="685" class="small">B · MUTE · D23</text>
+  <path d="M610 480 H352 M610 520 H352 M610 560 H352 M610 600 H352 M610 640 H352 M610 680 H352" class="wire"/>
+  <use href="#switch" x="292" y="480"/>
+  <use href="#switch" x="292" y="520"/>
+  <use href="#switch" x="292" y="560"/>
+  <use href="#switch" x="292" y="600"/>
+  <use href="#switch" x="292" y="640"/>
+  <use href="#switch" x="292" y="680"/>
+  <path d="M292 480 H267 V489 M292 520 H267 V529 M292 560 H267 V569 M292 600 H267 V609 M292 640 H267 V649 M292 680 H267 V689" class="wire"/>
+  <use href="#gnd" x="267" y="489"/>
+  <use href="#gnd" x="267" y="529"/>
+  <use href="#gnd" x="267" y="569"/>
+  <use href="#gnd" x="267" y="609"/>
+  <use href="#gnd" x="267" y="649"/>
+  <use href="#gnd" x="267" y="689"/>
+  <text x="244" y="516" class="ground">GND</text>
+  <text x="244" y="556" class="ground">GND</text>
+  <text x="244" y="596" class="ground">GND</text>
+  <text x="244" y="636" class="ground">GND</text>
+  <text x="244" y="676" class="ground">GND</text>
+  <text x="244" y="716" class="ground">GND</text>
+  <text x="54" y="757" class="small">Mega internal pull-ups are enabled; no external pull-up resistors required.</text>
+  <text x="54" y="780" class="small">Joystick SW is an additional start/restart input.</text>
+
+  <!-- Mega board and named pin connections -->
+  <rect x="610" y="145" width="425" height="830" rx="24" class="board"/>
+  <rect x="674" y="166" width="297" height="52" rx="8" fill="#0b4c32"/>
+  <text x="822" y="199" text-anchor="middle" font-size="21" font-weight="700" class="light">ARDUINO MEGA 2560</text>
+  <rect x="738" y="382" width="171" height="183" rx="10" class="chip"/>
+  <text x="823" y="449" text-anchor="middle" font-size="17" class="light">ATmega</text>
+  <text x="823" y="476" text-anchor="middle" font-size="17" class="light">2560</text>
+  <text x="823" y="529" text-anchor="middle" font-size="13" class="light">16 MHz</text>
+  <text x="626" y="238" class="pin">D20 / SDA</text>
+  <text x="626" y="278" class="pin">D21 / SCL</text>
+  <text x="626" y="348" class="pin">A8 / JOY_X</text>
+  <text x="626" y="388" class="pin">A9 / JOY_Y</text>
+  <text x="626" y="428" class="pin">D22 / JOY_SW</text>
+  <text x="626" y="488" class="pin">D2 / UP</text>
+  <text x="626" y="528" class="pin">D3 / DOWN</text>
+  <text x="626" y="568" class="pin">D4 / LEFT</text>
+  <text x="626" y="608" class="pin">D5 / RIGHT</text>
+  <text x="626" y="648" class="pin">A1 / START</text>
+  <text x="626" y="688" class="pin">D23 / MUTE</text>
+  <text x="626" y="728" class="pin">A0 / random seed</text>
+  <text x="626" y="788" class="pin">5V</text>
+  <text x="626" y="828" class="pin">GND</text>
+  <text x="951" y="238" text-anchor="end" class="pin">D24 / CLK</text>
+  <text x="951" y="278" text-anchor="end" class="pin">D25 / DIO</text>
+  <text x="951" y="403" text-anchor="end" class="pin">D30</text>
+  <text x="951" y="435" text-anchor="end" class="pin">D31</text>
+  <text x="951" y="467" text-anchor="end" class="pin">D32</text>
+  <text x="951" y="499" text-anchor="end" class="pin">D33</text>
+  <text x="951" y="531" text-anchor="end" class="pin">D34</text>
+  <text x="951" y="563" text-anchor="end" class="pin">D35</text>
+  <text x="951" y="595" text-anchor="end" class="pin">D36</text>
+  <text x="951" y="627" text-anchor="end" class="pin">D37</text>
+  <text x="951" y="659" text-anchor="end" class="pin">D38</text>
+  <text x="951" y="691" text-anchor="end" class="pin">D39</text>
+  <text x="951" y="818" text-anchor="end" class="pin">D6 / green LED</text>
+  <text x="951" y="858" text-anchor="end" class="pin">D7 / red LED</text>
+  <text x="951" y="898" text-anchor="end" class="pin">A3 / buzzer</text>
+  <text x="951" y="938" text-anchor="end" class="pin">5V</text>
+  <text x="951" y="968" text-anchor="end" class="pin">GND</text>
+  <circle cx="610" cy="230" r="4" fill="#fff"/><circle cx="610" cy="270" r="4" fill="#fff"/>
+  <circle cx="610" cy="340" r="4" fill="#fff"/><circle cx="610" cy="380" r="4" fill="#fff"/>
+  <circle cx="610" cy="420" r="4" fill="#fff"/><circle cx="610" cy="480" r="4" fill="#fff"/>
+  <circle cx="610" cy="520" r="4" fill="#fff"/><circle cx="610" cy="560" r="4" fill="#fff"/>
+  <circle cx="610" cy="600" r="4" fill="#fff"/><circle cx="610" cy="640" r="4" fill="#fff"/>
+  <circle cx="610" cy="680" r="4" fill="#fff"/>
+  <circle cx="1035" cy="230" r="4" fill="#fff"/><circle cx="1035" cy="270" r="4" fill="#fff"/>
+  <circle cx="1035" cy="395" r="4" fill="#fff"/><circle cx="1035" cy="427" r="4" fill="#fff"/>
+  <circle cx="1035" cy="459" r="4" fill="#fff"/><circle cx="1035" cy="491" r="4" fill="#fff"/>
+  <circle cx="1035" cy="523" r="4" fill="#fff"/><circle cx="1035" cy="555" r="4" fill="#fff"/>
+  <circle cx="1035" cy="587" r="4" fill="#fff"/><circle cx="1035" cy="619" r="4" fill="#fff"/>
+  <circle cx="1035" cy="651" r="4" fill="#fff"/><circle cx="1035" cy="683" r="4" fill="#fff"/>
+  <circle cx="1035" cy="810" r="4" fill="#fff"/><circle cx="1035" cy="850" r="4" fill="#fff"/>
+  <circle cx="1035" cy="890" r="4" fill="#fff"/><circle cx="1035" cy="930" r="4" fill="#fff"/>
+  <circle cx="1035" cy="960" r="4" fill="#fff"/>
+
+  <!-- TM1637 4-digit display -->
+  <rect x="1170" y="145" width="455" height="185" rx="10" class="module"/>
+  <text x="1193" y="176" class="label">4-digit 7-segment display module</text>
+  <text x="1193" y="199" class="small">TM1637 driver · library: TM1637Display</text>
+  <rect x="1280" y="213" width="290" height="72" rx="7" fill="#202826"/>
+  <text x="1425" y="264" text-anchor="middle" font-size="42" font-weight="700" class="digits">8888</text>
+  <text x="1193" y="306" class="power">VCC → +5V</text>
+  <text x="1370" y="306" class="ground">GND → common GND</text>
+  <path d="M1035 230 H1170 M1035 270 H1170" class="wire"/>
+  <text x="1051" y="221" class="small">CLK</text>
+  <text x="1051" y="262" class="small">DIO</text>
+
+  <!-- Ten LED bar channels, each with its own resistor -->
+  <rect x="1090" y="345" width="535" height="375" rx="10" class="module"/>
+  <text x="1112" y="373" class="label">10-segment LED bar · one 470 Ω resistor per LED</text>
+  <path d="M1300 395 V683" class="wire"/>
+  <path d="M1035 395 H1110 M1035 427 H1110 M1035 459 H1110 M1035 491 H1110 M1035 523 H1110 M1035 555 H1110 M1035 587 H1110 M1035 619 H1110 M1035 651 H1110 M1035 683 H1110" class="wire"/>
+  <rect x="1110" y="389" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1110" y="421" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1110" y="453" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1110" y="485" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1110" y="517" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1110" y="549" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1110" y="581" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1110" y="613" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1110" y="645" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1110" y="677" width="48" height="12" rx="2" class="resistor"/>
+  <path d="M1158 395 H1180 M1158 427 H1180 M1158 459 H1180 M1158 491 H1180 M1158 523 H1180 M1158 555 H1180 M1158 587 H1180 M1158 619 H1180 M1158 651 H1180 M1158 683 H1180" class="wire"/>
+  <use href="#led" x="1180" y="395"/><use href="#led" x="1180" y="427"/>
+  <use href="#led" x="1180" y="459"/><use href="#led" x="1180" y="491"/>
+  <use href="#led" x="1180" y="523"/><use href="#led" x="1180" y="555"/>
+  <use href="#led" x="1180" y="587"/><use href="#led" x="1180" y="619"/>
+  <use href="#led" x="1180" y="651"/><use href="#led" x="1180" y="683"/>
+  <path d="M1223 395 H1300 M1223 427 H1300 M1223 459 H1300 M1223 491 H1300 M1223 523 H1300 M1223 555 H1300 M1223 587 H1300 M1223 619 H1300 M1223 651 H1300 M1223 683 H1300" class="wire"/>
+  <circle cx="1300" cy="395" r="4" class="junction"/><circle cx="1300" cy="427" r="4" class="junction"/>
+  <circle cx="1300" cy="459" r="4" class="junction"/><circle cx="1300" cy="491" r="4" class="junction"/>
+  <circle cx="1300" cy="523" r="4" class="junction"/><circle cx="1300" cy="555" r="4" class="junction"/>
+  <circle cx="1300" cy="587" r="4" class="junction"/><circle cx="1300" cy="619" r="4" class="junction"/>
+  <circle cx="1300" cy="651" r="4" class="junction"/><circle cx="1300" cy="683" r="4" class="junction"/>
+  <path d="M1300 683 V695" class="wire"/><use href="#gnd" x="1300" y="695"/>
+  <text x="1322" y="708" class="ground">COMMON CATHODE → GND</text>
+
+  <!-- Existing red/green indicators and passive buzzer -->
+  <rect x="1090" y="740" width="535" height="210" rx="10" class="module"/>
+  <text x="1112" y="770" class="label">Status indicators and sound</text>
+  <path d="M1035 810 H1120 M1035 850 H1120 M1163 810 H1180 M1163 850 H1180 M1228 810 H1260 M1228 850 H1260 M1035 890 H1130 M1130 890 H1170 M1206 890 H1285 V910" class="wire"/>
+  <text x="1050" y="803" class="small">D6</text><text x="1050" y="843" class="small">D7</text>
+  <text x="1050" y="883" class="small">A3</text>
+  <use href="#led-rev" x="1120" y="810"/><use href="#led-rev" x="1120" y="850"/>
+  <rect x="1180" y="804" width="48" height="12" rx="2" class="resistor"/>
+  <rect x="1180" y="844" width="48" height="12" rx="2" class="resistor"/>
+  <text x="1204" y="801" text-anchor="middle" font-size="10">220Ω</text>
+  <text x="1204" y="841" text-anchor="middle" font-size="10">220Ω</text>
+  <text x="1270" y="817" class="power">+5V</text><text x="1270" y="857" class="power">+5V</text>
+  <text x="1320" y="817" class="small">Green indicator (active-low)</text>
+  <text x="1320" y="857" class="small">Red indicator (active-low)</text>
+  <circle cx="1188" cy="890" r="18" fill="#fff" stroke="#263b36" stroke-width="2"/>
+  <path d="M1178 882 L1186 882 L1198 874 V906 L1186 898 H1178 Z M1203 881 Q1216 890 1203 899 M1208 875 Q1228 890 1208 905" class="wire"/>
+  <use href="#gnd" x="1285" y="910"/>
+  <text x="1320" y="895" class="small">Passive buzzer</text>
+
+  <!-- Power, pin map notes -->
+  <rect x="48" y="830" width="515" height="115" rx="10" fill="#edf2ee" stroke="#aebbb4" stroke-width="2"/>
+  <text x="70" y="862" class="label">Power and signal notes</text>
+  <text x="70" y="887" class="small">Joystick and TM1637: +5V. OLED: use the module's rated VCC.</text>
+  <text x="70" y="910" class="small">Connect every module GND to Mega GND; do not join separate 5V supplies.</text>
+  <text x="70" y="933" class="small">A0 is left open for random seeding. LED-bar resistors limit each output to a few mA.</text>
+
+  <rect x="48" y="995" width="1577" height="120" rx="10" fill="#edf2ee" stroke="#aebbb4" stroke-width="2"/>
+  <text x="72" y="1030" class="label">Connections implemented in the sketch</text>
+  <text x="72" y="1057" class="small">Joystick X/Y: A8/A9 · joystick SW and A button: start/restart · arrow buttons: alternate movement · B button: toggle sound mute</text>
+  <text x="72" y="1082" class="small">TM1637 CLK/DIO: D24/D25 · score display: 4-digit module · LED-bar progress: D30–D39 · each segment has its own 470 Ω resistor</text>
+  <text x="72" y="1105" class="small">OLED I²C: SDA D20, SCL D21 · red/green indicators: D7/D6 · passive buzzer: A3</text>
+
+  <text x="48" y="1150" class="subtitle">Use a 4-pin TM1637 display module; this schematic is not for an un-drivered bare 4-digit LED display.</text>
+</svg>

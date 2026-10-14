@@ -1,52 +1,44 @@
 # Mega_Game_Boi
 
-A fast-paced Arduino Snake game with an I²C OLED display, buttons, LEDs, and a passive buzzer. The sketch supports the **Arduino Mega 2560**; the existing pin assignments already work on that board.
+Arduino Mega 2560 Snake with a two-axis joystick, tactile buttons, OLED, score display, LED bar, and passive buzzer.
 
-Main sketch: [`Snake_Game.ino`](Snake_Game.ino)
+Main sketch: [`Mega_Game_Boi.ino`](Mega_Game_Boi.ino)
 
-## Arduino Mega 2560 wiring
+## Mega 2560 circuit
 
-![Mega 2560 wiring guide](images/mega2560-wiring.svg)
+![Pin-level Mega 2560 schematic](images/mega2560-schematic.svg)
 
-| Part | Mega 2560 connection |
+This is a pin-level circuit schematic. The older [`images/schematic.svg`](images/schematic.svg) is the original Uno drawing; use the Mega schematic above for this build.
+
+| Component | Mega 2560 pins / wiring |
 |---|---|
-| Up button | D2 |
-| Down button | D3 |
-| Left button | D4 |
-| Right button | D5 |
-| Green LED | D6 |
-| Red LED | D7 |
-| Start/restart button | A1 |
-| Passive buzzer | A3 |
-| 128×64 I²C OLED SDA | SDA / D20 |
-| 128×64 I²C OLED SCL | SCL / D21 |
-| OLED power | 5V or 3.3V, according to the OLED module's rating |
-| OLED ground | GND |
+| OLED SDA / SCL | D20/SDA / D21/SCL |
+| OLED power | Module-rated 5V or 3.3V; common GND |
+| Joystick X / Y | A8 / A9 |
+| Joystick switch | D22 to GND; also starts/restarts |
+| Up / down / left / right buttons | D2 / D3 / D4 / D5 to GND |
+| A button | A1 to GND; start/restart |
+| B button | D23 to GND; toggles sound mute |
+| TM1637 4-digit display CLK / DIO | D24 / D25; VCC to 5V, GND to common GND |
+| Ten-segment LED bar | D30–D39, each segment through its own 470 Ω resistor to the LED anode; common cathode to GND |
+| Green / red status LEDs | D6 / D7 are active-low sinks; each LED anode goes through 220 Ω to +5V and its cathode goes to the pin |
+| Passive buzzer | A3 to buzzer, other terminal to GND |
+| Random seed input | Leave A0 unconnected |
 
-Each button connects its signal pin to GND when pressed. The sketch enables `INPUT_PULLUP`, so external pull-up resistors are not needed. Keep the current LED series resistors and buzzer wiring from your circuit. A0 is used as an unconnected analog input for the random seed.
+The joystick moves the snake; the four direction buttons remain available and take priority when pressed. Buttons use `INPUT_PULLUP`, so each switch goes between its input pin and GND. The LED bar shows progress through each ten-food score interval, and the TM1637 display shows the exact score. All circuit grounds must join Mega GND.
 
-The OLED uses hardware I²C through `Wire`; the board core selects the pins. On the Mega 2560, use **SDA/D20 and SCL/D21**—not the Uno's A4/A5 I²C pins. The older [`images/schematic.svg`](images/schematic.svg) depicts an Uno, so use the Mega guide above when wiring a Mega.
+**Display assumption:** the schematic and code use a four-pin TM1637 display module. A bare 12-pin four-digit display needs a separate driver circuit and is not wired the same way. Use a common-cathode LED bar (or ten separate LEDs) with one resistor per segment.
 
 ## Upload
 
-1. Install the [U8g2 library](https://github.com/olikraus/u8g2) in the Arduino IDE. `Wire` and `EEPROM` are included with the Arduino AVR board package.
+1. Install the [U8g2 library](https://github.com/olikraus/u8g2) and the **TM1637** library by Avishay Orpaz (header: `TM1637Display.h`) in Arduino IDE. `Wire` and `EEPROM` come with the Arduino AVR board package.
 2. Select **Tools → Board → Arduino AVR Boards → Arduino Mega or Mega 2560**.
-3. Open `Snake_Game.ino`, select the Mega's port, then compile and upload.
+3. Open `Mega_Game_Boi.ino`, select the Mega's port, then compile and upload.
 
-## Hardware
+The joystick is centered near 512 with a dead zone of 180 counts. If your joystick does not center reliably, adjust `JOYSTICK_CENTER` or `JOYSTICK_DEADZONE` in `CONFIG.h`. If up/down are reversed for your module, reverse the Y comparison in `readJoystick()`.
 
-- Arduino Mega 2560
-- 128×64 I²C monochrome OLED (SH1106 or SSD1306)
-- Four direction buttons and one start/restart button
-- Red and green LEDs with current-limiting resistors
-- Passive buzzer
-
-## Display driver
-
-The sketch is configured for an SH1106 display. For an SSD1306, replace the SH1106 constructor in `Snake_Game.ino` with:
+The sketch is configured for an SH1106 OLED. For an SSD1306, replace the SH1106 constructor in `Mega_Game_Boi.ino` with:
 
 ```cpp
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
 ```
-
-The Mega 2560 has enough RAM for the full-buffer U8g2 constructor used by default. Smaller boards with 2 KB or less of RAM may need a page-buffer constructor or may not have enough memory for the game.

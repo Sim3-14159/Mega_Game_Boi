@@ -1,6 +1,7 @@
 #include <Wire.h>
 #include <U8g2lib.h>
 #include <EEPROM.h>
+#include <TM1637Display.h>
 
 #include "CONFIG.h"
 
@@ -11,6 +12,7 @@ const int cycleDelayAmount = static_cast<int>(FPS);
 // and SCL to D21/SCL. The Wire/U8g2 hardware-I2C constructors select these pins.
 U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // uncomment for high quality
 //U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // uncomment for less RAM usage
+TM1637Display scoreDisplay(DISPLAY_CLK_PIN, DISPLAY_DIO_PIN);
 
 byte snakeX[75], snakeY[75];
 byte snakeLength;
@@ -21,6 +23,7 @@ byte changeDirection = 0;
 
 bool gameOver = false;
 bool hasStarted = false;
+bool soundMuted = false;
 
 
 void setup() {
@@ -30,15 +33,26 @@ void setup() {
   //EEPROM.write(0, 0);  // Reset high score once
   randomSeed(analogRead(A0));
   u8g2.begin();
+  scoreDisplay.setBrightness(0x0f);
+  scoreDisplay.showNumberDec(0, false, 4, 0);
 
   pinMode(uButton, INPUT_PULLUP);
   pinMode(dButton, INPUT_PULLUP);
   pinMode(lButton, INPUT_PULLUP);
   pinMode(rButton, INPUT_PULLUP);
+  pinMode(aButton, INPUT_PULLUP);
+  pinMode(bButton, INPUT_PULLUP);
+  pinMode(JOYSTICK_SW_PIN, INPUT_PULLUP);
+  pinMode(JOYSTICK_X_PIN, INPUT);
+  pinMode(JOYSTICK_Y_PIN, INPUT);
   pinMode(R_LED, OUTPUT);
   pinMode(G_LED, OUTPUT);
   pinMode(BUZZER, OUTPUT);
-  pinMode(aButton, INPUT_PULLUP);
+
+  for (byte i = 0; i < LED_BAR_LENGTH; i++) {
+    pinMode(LED_BAR_FIRST_PIN + i, OUTPUT);
+    digitalWrite(LED_BAR_FIRST_PIN + i, LOW);
+  }
 
   digitalWrite(G_LED, HIGH);
   digitalWrite(R_LED, HIGH);
@@ -47,6 +61,7 @@ void setup() {
 void loop() {
   static bool wasGameOver = false;
   static unsigned long int k = 0;
+  processMuteButton();
 
   // ----------- START SCREEN ------------
   if (!hasStarted) {
@@ -64,10 +79,10 @@ void loop() {
     
     u8g2.setFont(u8g2_font_ncenB08_tr);
     u8g2.setCursor(15, 50);
-    u8g2.print(F("PRESS [A] TO START"));
+    u8g2.print(F("A / STICK TO START"));
     u8g2.sendBuffer();
 
-    if (!digitalRead(aButton)) {
+    if (startButtonPressed()) {
       hasStarted = true;
       resetGame();
       delay(300); // debounce
@@ -104,7 +119,7 @@ void loop() {
       highScoreChecked = true;
     }
 
-    if (!digitalRead(aButton)) {
+    if (startButtonPressed()) {
       gameOver = false;
       resetGame();
       hasStarted = true;
@@ -116,7 +131,7 @@ void loop() {
     }
 
     if (buzzerTimer < 15) {  // about 1 second at 34ms delay + calculation time
-      tone(BUZZER, 400);
+      playGameTone(400);
       buzzerTimer++;
     } else {
       noTone(BUZZER);
@@ -131,7 +146,7 @@ void loop() {
 
     u8g2.setFont(u8g2_font_ncenB08_tr);
     u8g2.setCursor(15, 40);
-    u8g2.print(F("PRESS [A] TO RESTART"));
+    u8g2.print(F("A / STICK TO RESTART"));
 
     if (showHighScore) {
       u8g2.setCursor(12, 60);
@@ -175,14 +190,81 @@ void loop() {
 }
 
 void readJoystick() {
-  if (!digitalRead(rButton)) 
-  {changeDirection = 0;}
-  else if (!digitalRead(lButton)) 
-  {changeDirection = 2;}
-  else if (!digitalRead(uButton)) 
-  {changeDirection = 3;}
-  else if (!digitalRead(dButton)) 
-  {changeDirection = 1;}
+  // The four tactile direction buttons take priority over the analog stick.
+  if (!digitalRead(rButton)) {
+    changeDirection = 0;
+    return;
+  } else if (!digitalRead(lButton)) {
+    changeDirection = 2;
+    return;
+  } else if (!digitalRead(uButton)) {
+    changeDirection = 3;
+    return;
+  } else if (!digitalRead(dButton)) {
+    changeDirection = 1;
+    return;
+  }
+
+  int xOffset = analogRead(JOYSTICK_X_PIN) - JOYSTICK_CENTER;
+  int yOffset = analogRead(JOYSTICK_Y_PIN) - JOYSTICK_CENTER;
+  int absX = abs(xOffset);
+  int absY = abs(yOffset);
+
+  if (absX < JOYSTICK_DEADZONE && absY < JOYSTICK_DEADZONE) {
+    return; // Ignore the joystick's small center-position noise.
+  }
+
+  // Pick the stronger axis so a diagonal stick movement selects one direction.
+  if (absX > absY) {
+    changeDirection = xOffset < 0 ? 2 : 0;
+  } else {
+    // On common joystick modules, pushing up lowers the Y reading.
+    changeDirection = yOffset < 0 ? 3 : 1;
+  }
+}
+
+bool startButtonPressed() {
+  return !digitalRead(aButton) || !digitalRead(JOYSTICK_SW_PIN);
+}
+
+void processMuteButton() {
+  static int lastReading = HIGH;
+  static int stableState = HIGH;
+  static unsigned long lastDebounceTime = 0;
+
+  int reading = digitalRead(bButton);
+  if (reading != lastReading) {
+    lastDebounceTime = millis();
+  }
+
+  if ((millis() - lastDebounceTime) > 35 && reading != stableState) {
+    stableState = reading;
+    if (stableState == LOW) {
+      soundMuted = !soundMuted;
+      if (soundMuted) {
+        noTone(BUZZER);
+      }
+    }
+  }
+
+  lastReading = reading;
+}
+
+void playGameTone(unsigned int frequency) {
+  if (!soundMuted) {
+    tone(BUZZER, frequency);
+  }
+}
+
+void updateScoreOutputs() {
+  byte score = snakeLength >= 2 ? snakeLength - 2 : 0;
+  scoreDisplay.showNumberDec(score, false, 4, 0);
+
+  // The bar shows progress through the current ten-food interval.
+  byte litSegments = score == 0 ? 0 : ((score - 1) % LED_BAR_LENGTH) + 1;
+  for (byte i = 0; i < LED_BAR_LENGTH; i++) {
+    digitalWrite(LED_BAR_FIRST_PIN + i, i < litSegments ? HIGH : LOW);
+  }
 }
 
 void moveSnake() {
@@ -211,7 +293,7 @@ void checkCollision() {
     snakeLength++;
     spawnFood();
     digitalWrite(G_LED, LOW);
-    tone(BUZZER, 600);
+    playGameTone(600);
   }
 
   if (snakeX[0] < 0 || snakeX[0] >= 128 || snakeY[0] < 0 || snakeY[0] >= 64) {
@@ -244,7 +326,13 @@ void draw() {
     u8g2.setCursor(3, 8);
     u8g2.print(F("Score: "));
     u8g2.print(snakeLength - 2); // Score starts at 0
+
+    if (soundMuted) {
+      u8g2.setCursor(116, 8);
+      u8g2.print(F("M"));
+    }
   } while (u8g2.nextPage());
+  updateScoreOutputs();
 }
 
 void spawnFood() {
@@ -263,4 +351,5 @@ void resetGame() {
   changeDirection = 0;
   gameOver = false;
   spawnFood();
+  updateScoreOutputs();
 }
